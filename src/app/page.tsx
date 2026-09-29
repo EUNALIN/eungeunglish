@@ -24,11 +24,11 @@ export default function Home() {
 
       <p className="text-xs tracking-[0.3em] text-dim">EUNGEUNGLISH GALAXY</p>
       <h1 className="font-display mt-3 text-center text-3xl leading-tight sm:text-5xl">
-        영어로 물어보면?
+        너 영어 할 수 있어?
         <br />
         <span className="text-star">응응!</span>
       </h1>
-      <p className="mt-4 text-center text-dim">너 영어 할 수 있어? 응! 물론이지 글리쉬</p>
+      <p className="mt-4 text-center text-dim">응! 물론이지 글리쉬</p>
 
       {/* 메뉴 별자리: 영어 해보자가 메인, 문법은 작은 위성 별 */}
       <nav className="relative mt-4 h-[360px] w-full max-w-2xl" aria-label="메뉴">

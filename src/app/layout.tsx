@@ -20,13 +20,13 @@ const DESCRIPTION = "너 영어 할 수 있어? 응! 물론이지 글리쉬 ✨ 
 export const metadata: Metadata = {
   // 카톡·SNS 미리보기 이미지 주소를 절대 경로로 만들 때 기준
   metadataBase: new URL("https://www.eungeung.com"),
-  title: "응응글리쉬 | 영어로 물어보면? 응응!",
+  title: "응응글리쉬 | 너 영어 할 수 있어? 응응!",
   description: DESCRIPTION,
   // 미리보기 이미지는 app/opengraph-image.png 가 자동으로 붙는다
   openGraph: {
     type: "website",
     siteName: "응응글리쉬",
-    title: "응응글리쉬 | 영어로 물어보면? 응응!",
+    title: "응응글리쉬 | 너 영어 할 수 있어? 응응!",
     description: DESCRIPTION,
     url: "/",
     locale: "ko_KR",

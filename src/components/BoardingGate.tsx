@@ -39,7 +39,7 @@ function BoardingScreen() {
       </div>
       <p className="text-xs tracking-[0.3em] text-dim">EUNGEUNGLISH GALAXY</p>
       <h1 className="font-display mt-3 text-center text-3xl leading-tight sm:text-5xl">
-        영어로 물어보면?
+        너 영어 할 수 있어?
         <br />
         <span className="text-star">응응!</span>
       </h1>
