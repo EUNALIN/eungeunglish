@@ -14,9 +14,24 @@ const body = Gowun_Dodum({ weight: "400", variable: "--font-gowun", preload: fal
 const plain = Noto_Sans_KR({ weight: ["400", "700"], variable: "--font-noto", preload: false });
 const mono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
+const DESCRIPTION = "너 영어 할 수 있어? 응! 물론이지 글리쉬 ✨ 실생활 영작 · 일요 스터디 복습 · 별자리 그리기";
+
 export const metadata: Metadata = {
+  // 카톡·SNS 미리보기 이미지 주소를 절대 경로로 만들 때 기준
+  metadataBase: new URL("https://www.eungeung.com"),
   title: "응응글리쉬 | 영어로 물어보면? 응응!",
-  description: "너 영어 할 수 있어? 응! 물론이지 글리쉬. 별을 모으며 영작하는 은하수 영어 공부 공간.",
+  description: DESCRIPTION,
+  // 미리보기 이미지는 app/opengraph-image.png 가 자동으로 붙는다
+  openGraph: {
+    type: "website",
+    siteName: "응응글리쉬",
+    title: "응응글리쉬 | 영어로 물어보면? 응응!",
+    description: DESCRIPTION,
+    url: "/",
+    locale: "ko_KR",
+  },
+  twitter: { card: "summary_large_image" },
+  appleWebApp: { title: "응응글리쉬" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
