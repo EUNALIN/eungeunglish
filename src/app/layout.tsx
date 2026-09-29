@@ -5,6 +5,7 @@ import { ProgressProvider } from "@/lib/progress";
 import StarField from "@/components/StarField";
 import TopBar from "@/components/TopBar";
 import EasterEggs from "@/components/EasterEggs";
+import BoardingGate from "@/components/BoardingGate";
 import { themeInitScript } from "@/components/ThemeToggle";
 
 // 한글 폰트는 서브셋 목록에 korean 이 없어서 preload 를 끈다
@@ -48,8 +49,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col">
         <ProgressProvider>
           <StarField />
-          <TopBar />
-          <main className="flex flex-1 flex-col">{children}</main>
+          {/* 닉네임 + 코드로 탑승해야 들어갈 수 있다 */}
+          <BoardingGate>
+            <TopBar />
+            <main className="flex flex-1 flex-col">{children}</main>
+          </BoardingGate>
           <EasterEggs />
         </ProgressProvider>
       </body>

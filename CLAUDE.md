@@ -52,6 +52,7 @@
 ## 기술
 - Next.js 16 (App Router) + TypeScript + Tailwind v4. 코드 쓰기 전 `node_modules/next/dist/docs/` 확인.
 - **이 PC는 Windows 스마트 앱 컨트롤이 Turbopack 네이티브 파일을 막아서 `--webpack` 으로 실행한다** (`npm run dev`, `npm run build` 에 이미 들어 있음).
+- **첫 화면 = 우주선 탑승** (`src/components/BoardingGate.tsx`): 닉네임 + 4자리 코드를 입력해야만 사이트에 들어갈 수 있다. 로그아웃하면 다시 탑승 화면.
 - 로그인: 닉네임 + 4자리 코드. 기록은 localStorage 에 바로 저장 + 로그인 시 **Supabase** 동기화 (`src/lib/progress.tsx`, `src/lib/cloud.ts`).
   - 서버에는 `SHA-256("eungeunglish:닉네임#코드")` 해시 key 와 기록 JSON 만 저장. 테이블 직접 접근 불가, RPC `get_progress` / `save_progress` 만 허용 (`supabase/schema.sql`).
   - 더 최신 기록(`updatedAt`)이 이긴다. 처음 로그인하면 게스트 기록을 이어받아 업로드.
