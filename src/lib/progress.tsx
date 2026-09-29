@@ -2,11 +2,11 @@
 
 /**
  * 로그인(닉네임 + 4자리 코드)과 학습 기록.
- * 지금은 브라우저(localStorage)에 저장한다.
- * 나중에 Supabase 로 옮길 때는 loadProgress / saveProgress 만 바꾸면 된다.
+ * 브라우저(localStorage)에 바로 저장하고, 로그인하면 Supabase 에도 저장해서 기기 간에 이어진다.
  */
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { cloudEnabled, fetchProgress, pushProgress, userKey } from "./cloud";
 
 export type Result = "full" | "half" | "miss";
 export type Source = "grammar" | "daily" | "sunday";
@@ -30,6 +30,8 @@ export type Progress = {
   cleared: string[];
   /** 날짜별로 푼 문장 수 { "2026-09-29": 12 } */
   studied: Record<string, number>;
+  /** 마지막으로 바뀐 시각 (ms). 기기 간에 더 최신 기록을 고를 때 쓴다 */
+  updatedAt: number;
 };
 
 export type User = { nickname: string; code: string };
@@ -46,6 +48,7 @@ const emptyProgress = (): Progress => ({
   eggs: [],
   cleared: [],
   studied: {},
+  updatedAt: 0,
 });
 
 function read<T>(key: string): T | null {
@@ -92,10 +95,14 @@ export function streak(days: string[]): number {
   }
 }
 
+export type Sync = "local" | "loading" | "saving" | "saved" | "error";
+
 type Ctx = {
   ready: boolean;
   user: User | null;
   progress: Progress;
+  /** 클라우드 동기화 상태 (로그인 안 했거나 키가 없으면 local) */
+  sync: Sync;
   login: (u: User) => void;
   logout: () => void;
   record: (source: Source, id: string, result: Result) => void;
@@ -107,45 +114,122 @@ type Ctx = {
 
 const ProgressContext = createContext<Ctx | null>(null);
 
+/** 기록이 하나라도 있는지 (빈 기록으로 클라우드를 덮어쓰지 않으려고) */
+const hasData = (p: Progress) => p.updatedAt > 0 || p.stars > 0 || p.days.length > 0;
+
 export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [progress, setProgress] = useState<Progress>(emptyProgress);
+  const [sync, setSync] = useState<Sync>("local");
+  /** 현재 로그인한 사람의 클라우드 key (해시) */
+  const keyRef = useRef<string | null>(null);
+  /** 내가 바꾼 기록이 아직 클라우드에 안 올라갔는지 */
+  const dirty = useRef(false);
+  const latest = useRef(progress);
+  useEffect(() => {
+    latest.current = progress;
+  }, [progress]);
+
+  /** 클라우드에서 불러와서 더 최신인 쪽을 쓴다. 클라우드가 비었으면 local 을 올린다 */
+  const pull = useCallback(async (u: User, local: Progress) => {
+    if (!cloudEnabled) return;
+    setSync("loading");
+    try {
+      const key = await userKey(u.nickname, u.code);
+      keyRef.current = key;
+      const remote = await fetchProgress<Progress>(key);
+      if (remote && (remote.updatedAt ?? 0) >= local.updatedAt) {
+        const merged = { ...emptyProgress(), ...remote };
+        write(progressKey(u), merged);
+        setProgress(merged);
+      } else if (hasData(local)) {
+        await pushProgress(key, local);
+      }
+      setSync("saved");
+    } catch {
+      setSync("error");
+    }
+  }, []);
 
   useEffect(() => {
     const u = read<User>(SESSION_KEY);
+    const local = loadProgress(u);
     // localStorage 는 브라우저에서만 읽을 수 있어서 마운트 후에 불러온다
     /* eslint-disable react-hooks/set-state-in-effect */
     setUser(u);
-    setProgress(loadProgress(u));
+    setProgress(local);
     setReady(true);
     /* eslint-enable react-hooks/set-state-in-effect */
+    if (u) void pull(u, local);
+  }, [pull]);
+
+  /** 바뀐 기록을 클라우드에 올린다 (1초 모아서) */
+  const push = useCallback(async () => {
+    const key = keyRef.current;
+    if (!cloudEnabled || !key || !dirty.current) return;
+    dirty.current = false;
+    setSync("saving");
+    try {
+      await pushProgress(key, latest.current);
+      setSync("saved");
+    } catch {
+      dirty.current = true;
+      setSync("error");
+    }
   }, []);
+
+  useEffect(() => {
+    if (!dirty.current) return;
+    const t = setTimeout(() => void push(), 1000);
+    return () => clearTimeout(t);
+  }, [progress, push]);
+
+  // 탭을 닫거나 다른 앱으로 갈 때 남은 기록을 바로 올린다
+  useEffect(() => {
+    const flush = () => document.visibilityState === "hidden" && void push();
+    document.addEventListener("visibilitychange", flush);
+    return () => document.removeEventListener("visibilitychange", flush);
+  }, [push]);
 
   const update = useCallback(
     (fn: (p: Progress) => Progress) => {
       setProgress((prev) => {
-        const next = fn(prev);
+        const next = { ...fn(prev), updatedAt: Date.now() };
         saveProgress(user, next);
         return next;
       });
+      if (user) dirty.current = true;
     },
     [user],
   );
 
-  const login = useCallback((u: User) => {
-    write(SESSION_KEY, u);
-    setUser(u);
-    setProgress(loadProgress(u));
-  }, []);
+  const login = useCallback(
+    (u: User) => {
+      write(SESSION_KEY, u);
+      // 이 닉네임으로 처음 들어오면 지금까지의 게스트 기록을 이어받는다
+      const own = read<Progress>(progressKey(u));
+      const local = own ? loadProgress(u) : loadProgress(null);
+      if (!own) write(progressKey(u), local);
+      dirty.current = false;
+      setUser(u);
+      setProgress(local);
+      void pull(u, local);
+    },
+    [pull],
+  );
 
   const logout = useCallback(() => {
+    void push();
     try {
       localStorage.removeItem(SESSION_KEY);
     } catch {}
+    keyRef.current = null;
+    dirty.current = false;
     setUser(null);
+    setSync("local");
     setProgress(loadProgress(null));
-  }, []);
+  }, [push]);
 
   const record = useCallback(
     (source: Source, id: string, result: Result) =>
@@ -204,8 +288,8 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   );
 
   const value = useMemo(
-    () => ({ ready, user, progress, login, logout, record, finishTopic, finishConstellation, findEgg, removeFromBlackhole }),
-    [ready, user, progress, login, logout, record, finishTopic, finishConstellation, findEgg, removeFromBlackhole],
+    () => ({ ready, user, progress, sync, login, logout, record, finishTopic, finishConstellation, findEgg, removeFromBlackhole }),
+    [ready, user, progress, sync, login, logout, record, finishTopic, finishConstellation, findEgg, removeFromBlackhole],
   );
 
   return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>;

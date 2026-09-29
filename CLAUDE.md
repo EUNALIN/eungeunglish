@@ -49,6 +49,9 @@
 ## 기술
 - Next.js 16 (App Router) + TypeScript + Tailwind v4. 코드 쓰기 전 `node_modules/next/dist/docs/` 확인.
 - **이 PC는 Windows 스마트 앱 컨트롤이 Turbopack 네이티브 파일을 막아서 `--webpack` 으로 실행한다** (`npm run dev`, `npm run build` 에 이미 들어 있음).
-- 로그인: 닉네임 + 4자리 코드. 기록은 현재 localStorage (`src/lib/progress.tsx`). 다음 단계로 Supabase 연동 예정 — `loadProgress` / `saveProgress` 만 바꾸면 되도록 유지.
-- 배포 예정: Vercel. GitHub: https://github.com/EUNALIN/eungeunglish
+- 로그인: 닉네임 + 4자리 코드. 기록은 localStorage 에 바로 저장 + 로그인 시 **Supabase** 동기화 (`src/lib/progress.tsx`, `src/lib/cloud.ts`).
+  - 서버에는 `SHA-256("eungeunglish:닉네임#코드")` 해시 key 와 기록 JSON 만 저장. 테이블 직접 접근 불가, RPC `get_progress` / `save_progress` 만 허용 (`supabase/schema.sql`).
+  - 더 최신 기록(`updatedAt`)이 이긴다. 처음 로그인하면 게스트 기록을 이어받아 업로드.
+  - 환경 변수: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (로컬은 `.env.local`, 배포는 Vercel 설정). 없으면 브라우저 저장만 동작. secret/service_role 키는 절대 코드·채팅에 넣지 않는다.
+- 배포: Vercel https://eungeunglish.vercel.app (main 에 push 하면 자동 배포). GitHub: https://github.com/EUNALIN/eungeunglish
 - 코드 주석은 한국어로, 짧게.

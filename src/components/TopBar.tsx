@@ -6,7 +6,15 @@ import Modal from "./Modal";
 import { streak, today, useProgress } from "@/lib/progress";
 
 export default function TopBar() {
-  const { ready, user, progress, login, logout } = useProgress();
+  const { ready, user, progress, sync, login, logout } = useProgress();
+  const syncIcon = { local: "", loading: "⏳", saving: "⏳", saved: "☁️", error: "⚠️" }[sync];
+  const syncTitle = {
+    local: "",
+    loading: "기록 불러오는 중…",
+    saving: "저장 중…",
+    saved: "클라우드에 저장됨 (다른 기기에서도 이어져요)",
+    error: "클라우드 저장 실패 — 이 브라우저에는 저장돼 있어요",
+  }[sync];
   const [open, setOpen] = useState(false);
   const [nickname, setNickname] = useState("");
   const [code, setCode] = useState("");
@@ -47,7 +55,7 @@ export default function TopBar() {
                 className="rounded-full border border-card-border px-3 py-1 hover:bg-card"
                 title="로그아웃"
               >
-                🌌 {user.nickname}
+                🌌 {user.nickname} {syncIcon && <span title={syncTitle}>{syncIcon}</span>}
               </button>
             ) : (
               <button
@@ -84,7 +92,7 @@ export default function TopBar() {
           {error && <p className="text-sm text-bad">{error}</p>}
           <button className="mt-2 rounded-xl bg-star py-2 font-bold text-space hover:brightness-110">응! 출발</button>
           <p className="text-center text-xs text-dim">
-            지금은 이 브라우저에 기록이 저장돼요. (다른 기기 연동은 곧!)
+            같은 닉네임 + 코드로 들어오면 폰·PC 어디서든 기록이 이어져요. 코드는 꼭 기억해 두세요!
           </p>
         </form>
       </Modal>
