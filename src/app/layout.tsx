@@ -5,6 +5,7 @@ import { ProgressProvider } from "@/lib/progress";
 import StarField from "@/components/StarField";
 import TopBar from "@/components/TopBar";
 import EasterEggs from "@/components/EasterEggs";
+import { themeInitScript } from "@/components/ThemeToggle";
 
 // 한글 폰트는 서브셋 목록에 korean 이 없어서 preload 를 끈다
 const display = Jua({ weight: "400", variable: "--font-jua", preload: false });
@@ -20,7 +21,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="ko" className={`${display.variable} ${body.variable} ${plain.variable} ${mono.variable} h-full antialiased`}>
+    <html
+      lang="ko"
+      className={`${display.variable} ${body.variable} ${plain.variable} ${mono.variable} h-full antialiased`}
+      // 테마 스크립트가 data-theme 을 먼저 바꾸므로 경고 무시
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className="flex min-h-full flex-col">
         <ProgressProvider>
           <StarField />

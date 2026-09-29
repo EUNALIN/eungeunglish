@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import Modal from "./Modal";
+import ThemeToggle from "./ThemeToggle";
 import { streak, today, useProgress } from "@/lib/progress";
 
 export default function TopBar() {
@@ -33,15 +34,15 @@ export default function TopBar() {
   const days = streak(progress.days);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-card-border bg-space-deep/70 backdrop-blur-md">
-      <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-2.5">
-        <Link href="/" className="font-display flex items-center gap-1.5 text-lg text-star">
+    <header className="sticky top-0 z-40 border-b border-card-border bg-surface-deep/70 backdrop-blur-md">
+      <div className="mx-auto flex max-w-5xl items-center justify-between gap-2 px-4 py-2.5">
+        <Link href="/" className="font-display flex shrink-0 items-center gap-1.5 whitespace-nowrap text-base text-star sm:text-lg">
           <span aria-hidden>✦</span> 응응글리쉬
         </Link>
         {ready && (
-          <div className="flex items-center gap-2 text-sm sm:gap-3">
+          <div className="flex items-center gap-1.5 whitespace-nowrap text-xs sm:gap-3 sm:text-sm">
             <span className="text-milk" title="오늘 푼 문장 (맞힘 + 정답 보기)">
-              ✍️ 오늘 <span className="font-bold text-star">{progress.studied[today()] ?? 0}</span>문장
+              ✍️ <span className="hidden sm:inline">오늘 </span><span className="font-bold text-star">{progress.studied[today()] ?? 0}</span>문장
             </span>
             <span className="hidden text-dim sm:inline" title="연속 관측일">
               🔭 {days}일째
@@ -49,10 +50,11 @@ export default function TopBar() {
             <span className="text-star" title="모은 별">
               ★ {progress.stars % 1 ? progress.stars.toFixed(1) : progress.stars}
             </span>
+            <ThemeToggle />
             {user ? (
               <button
                 onClick={logout}
-                className="rounded-full border border-card-border px-3 py-1 hover:bg-card"
+                className="max-w-[9rem] truncate rounded-full border border-card-border px-2.5 py-1 hover:bg-card sm:max-w-none sm:px-3"
                 title="로그아웃"
               >
                 🌌 {user.nickname} {syncIcon && <span title={syncTitle}>{syncIcon}</span>}
@@ -60,7 +62,7 @@ export default function TopBar() {
             ) : (
               <button
                 onClick={() => setOpen(true)}
-                className="rounded-full bg-star px-3 py-1 font-bold text-space hover:brightness-110"
+                className="rounded-full bg-star px-2.5 py-1 font-bold text-on-star hover:brightness-110 sm:px-3"
               >
                 탑승하기
               </button>
@@ -79,7 +81,7 @@ export default function TopBar() {
             onChange={(e) => setNickname(e.target.value)}
             placeholder="은하수"
             maxLength={12}
-            className="rounded-xl border border-card-border bg-space-deep px-3 py-2 outline-none focus:border-star"
+            className="rounded-xl border border-card-border bg-surface-deep px-3 py-2 outline-none focus:border-star"
           />
           <label className="mt-1 text-xs text-dim">코드 (숫자 4자리)</label>
           <input
@@ -87,10 +89,10 @@ export default function TopBar() {
             onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 4))}
             placeholder="2261"
             inputMode="numeric"
-            className="rounded-xl border border-card-border bg-space-deep px-3 py-2 font-mono tracking-[0.4em] outline-none focus:border-star"
+            className="rounded-xl border border-card-border bg-surface-deep px-3 py-2 font-mono tracking-[0.4em] outline-none focus:border-star"
           />
           {error && <p className="text-sm text-bad">{error}</p>}
-          <button className="mt-2 rounded-xl bg-star py-2 font-bold text-space hover:brightness-110">응! 출발</button>
+          <button className="mt-2 rounded-xl bg-star py-2 font-bold text-on-star hover:brightness-110">응! 출발</button>
           <p className="text-center text-xs text-dim">
             같은 닉네임 + 코드로 들어오면 폰·PC 어디서든 기록이 이어져요. 코드는 꼭 기억해 두세요!
           </p>

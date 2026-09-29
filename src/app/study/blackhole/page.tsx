@@ -56,7 +56,7 @@ export default function BlackholePage() {
             <p className="mt-8 text-lg">블랙홀이 텅 비었다! 응응 👏</p>
           ) : (
             <>
-              <button onClick={start} className="mt-6 rounded-xl bg-star px-6 py-2.5 font-bold text-space">
+              <button onClick={start} className="mt-6 rounded-xl bg-star px-6 py-2.5 font-bold text-on-star">
                 구출 작전 시작 ({Math.min(items.length, 10)}문장)
               </button>
               <ul className="mt-8 w-full space-y-2 text-left">

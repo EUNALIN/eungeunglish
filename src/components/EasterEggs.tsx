@@ -61,7 +61,7 @@ export default function EasterEggs() {
         />
       ))}
       {toast && (
-        <div className="pop-in fixed bottom-6 left-1/2 z-50 w-[calc(100%-32px)] max-w-md -translate-x-1/2 rounded-2xl border border-card-border bg-space px-4 py-3 text-center shadow-2xl">
+        <div className="pop-in fixed bottom-6 left-1/2 z-50 w-[calc(100%-32px)] max-w-md -translate-x-1/2 rounded-2xl border border-card-border bg-surface px-4 py-3 text-center shadow-2xl">
           {toast}
         </div>
       )}

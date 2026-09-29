@@ -38,7 +38,7 @@ export default function DrawPage() {
         </div>
         <div>
           <p className="text-xs text-dim">정복한 문장</p>
-          <p className="font-display mt-1 text-2xl" style={{ color: "#9fd8ff" }}>
+          <p className="font-display mt-1 text-2xl" style={{ color: "var(--sky)" }}>
             {cleared}
             <span className="text-sm text-dim"> / {dailySentences.length}</span>
           </p>
@@ -50,7 +50,7 @@ export default function DrawPage() {
         <section className="mt-10">
           <h2 className="font-display text-2xl">🌌 나의 밤하늘</h2>
           <p className="text-sm text-dim">완성한 별자리가 여기에 하나씩 떠올라요</p>
-          <div className="mt-4 flex flex-wrap justify-center gap-x-2 gap-y-1 rounded-3xl border border-card-border bg-space-deep/60 p-4">
+          <div className="mt-4 flex flex-wrap justify-center gap-x-2 gap-y-1 rounded-3xl border border-card-border bg-surface-deep/60 p-4">
             {constellations
               .filter((c) => done.has(c.id))
               .map((c) => (

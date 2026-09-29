@@ -50,7 +50,7 @@ export default function ConstellationView({
             y1={y1}
             x2={x2}
             y2={y2}
-            stroke="rgba(255,255,255,0.18)"
+            stroke="var(--line-off)"
             strokeWidth="0.8"
             strokeDasharray="2 3"
           />
@@ -70,7 +70,7 @@ export default function ConstellationView({
               cx={x}
               cy={y}
               r={on ? 3.2 : 2.2}
-              fill={on ? (half ? "#d9c27a" : "var(--star-glow)") : r === "miss" ? "#4a4470" : "rgba(255,255,255,0.55)"}
+              fill={on ? (half ? "#d9c27a" : "var(--star-glow)") : r === "miss" ? "var(--miss)" : "var(--unlit)"}
               opacity={half ? 0.75 : 1}
               className={on && !allLit ? "star-light" : undefined}
               style={on ? { filter: "drop-shadow(0 0 3px #ffd966)" } : undefined}

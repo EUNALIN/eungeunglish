@@ -45,7 +45,7 @@ export default function Home() {
               y1={`${a.y}%`}
               x2={`${b.x}%`}
               y2={`${b.y}%`}
-              stroke="rgba(255,244,190,0.25)"
+              stroke="var(--menu-line)"
               strokeWidth="1.5"
               strokeDasharray="4 6"
             />
@@ -90,7 +90,7 @@ export default function Home() {
         <p className="mt-2 text-dim">곧 돌아오겠습니다! 👽💫</p>
         <button
           onClick={() => setComingSoon(false)}
-          className="mt-4 rounded-xl bg-star px-5 py-2 font-bold text-space hover:brightness-110"
+          className="mt-4 rounded-xl bg-star px-5 py-2 font-bold text-on-star hover:brightness-110"
         >
           응… 기다릴게
         </button>
@@ -196,7 +196,7 @@ function SecretConstellation() {
                 cx={x}
                 cy={y}
                 r={i < lit ? 3.2 : 1.8}
-                fill={i < lit ? "var(--star-glow)" : "rgba(255,255,255,0.55)"}
+                fill={i < lit ? "var(--star-glow)" : "var(--unlit)"}
                 className={i < lit ? "star-light" : "twinkle"}
                 style={i < lit ? { filter: "drop-shadow(0 0 4px #ffd966)" } : undefined}
               />

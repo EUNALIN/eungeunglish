@@ -76,7 +76,7 @@ function TopicCard({ topic, best }: { topic: GrammarTopic; best?: number }) {
         <span className="text-3xl transition group-hover:scale-110">{topic.emoji}</span>
         <span className="text-sm tracking-widest" title={best !== undefined ? `최고 ${Math.round(best * 100)}%` : "아직 안 함"}>
           {[0, 1, 2].map((i) => (
-            <span key={i} className={i < stars ? "text-star" : "text-white/15"}>
+            <span key={i} className={i < stars ? "text-star" : "text-ink/15"}>
               ★
             </span>
           ))}

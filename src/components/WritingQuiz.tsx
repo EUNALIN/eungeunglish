@@ -130,17 +130,17 @@ export default function WritingQuiz({
   return (
     <div className="font-plain mx-auto flex w-full max-w-2xl flex-col">
       {/* 문제 푸는 동안은 반짝이 배경을 가리고 단색으로 (텍스트에만 집중) */}
-      <div aria-hidden className="fixed inset-0 -z-[5] bg-[#151515]" />
+      <div aria-hidden className="fixed inset-0 -z-[5] bg-quiz" />
 
       {/* 진행 상황 */}
       <div className="flex w-full items-center gap-3">
-        <div className="h-1 flex-1 overflow-hidden rounded-full bg-white/10">
+        <div className="h-1 flex-1 overflow-hidden rounded-full bg-ink/10">
           <div
-            className="h-full rounded-full bg-white/60 transition-all duration-500"
+            className="h-full rounded-full bg-ink/60 transition-all duration-500"
             style={{ width: `${((idx + (phase === "typing" ? 0 : 1)) / items.length) * 100}%` }}
           />
         </div>
-        <span className="text-sm text-white/50">
+        <span className="text-sm text-ink/50">
           {idx + 1} / {items.length}
         </span>
       </div>
@@ -148,13 +148,13 @@ export default function WritingQuiz({
       {/* 문제 */}
       {item.kind === "fix" ? (
         <div className="mt-8">
-          <p className="text-sm text-white/50">이 문장을 고쳐서 써 보세요.</p>
-          <p className="mt-2 text-xl font-bold leading-relaxed text-[#ff8a8a]">
+          <p className="text-sm text-ink/50">이 문장을 고쳐서 써 보세요.</p>
+          <p className="mt-2 text-xl font-bold leading-relaxed text-bad">
             {idx + 1}. {item.ko}
           </p>
         </div>
       ) : (
-        <p className="mt-8 text-xl font-bold leading-relaxed text-white sm:text-2xl">
+        <p className="mt-8 text-xl font-bold leading-relaxed text-ink sm:text-2xl">
           {idx + 1}. {item.ko}
         </p>
       )}
@@ -170,7 +170,7 @@ export default function WritingQuiz({
             <span key={wi} className="inline-flex items-end">
               {w.slots.map((s, si) =>
                 s.kind === "punct" ? (
-                  <span key={si} className="px-[1px] text-white/50">
+                  <span key={si} className="px-[1px] text-ink/50">
                     {s.char}
                   </span>
                 ) : (
@@ -179,28 +179,28 @@ export default function WritingQuiz({
                     className={`relative mx-[1px] inline-block w-[0.66em] border-b-2 text-center font-bold leading-tight ${
                       s.typed === undefined
                         ? showCaret && s.cursor
-                          ? "border-white text-transparent"
-                          : "border-white/35 text-transparent"
+                          ? "border-ink text-transparent"
+                          : "border-ink/35 text-transparent"
                         : s.ok
-                          ? "border-[#5ee89a] text-[#5ee89a]"
-                          : "border-[#ff6b6b] text-[#ff6b6b]"
+                          ? "border-ok text-ok"
+                          : "border-bad text-bad"
                     }`}
                   >
                     {s.typed ?? "·"}
                     {showCaret && s.cursor && (
-                      <span className="caret absolute bottom-1 left-0 top-0.5 w-[2px] bg-white" />
+                      <span className="caret absolute bottom-1 left-0 top-0.5 w-[2px] bg-ink" />
                     )}
                   </span>
                 ),
               )}
-              {w.extra.trim() && <span className="text-[#ff6b6b] line-through">{w.extra}</span>}
-              {showCaret && w.cursorEnd && <span className="caret ml-[1px] inline-block h-[1.1em] w-[2px] bg-white" />}
+              {w.extra.trim() && <span className="text-bad line-through">{w.extra}</span>}
+              {showCaret && w.cursorEnd && <span className="caret ml-[1px] inline-block h-[1.1em] w-[2px] bg-ink" />}
             </span>
           ))}
         </div>
 
         {!input && phase === "typing" && !focused && (
-          <p className="pointer-events-none mt-3 text-sm text-white/40">밑줄을 눌러서 바로 입력하세요</p>
+          <p className="pointer-events-none mt-3 text-sm text-ink/40">밑줄을 눌러서 바로 입력하세요</p>
         )}
 
         <input
@@ -224,22 +224,22 @@ export default function WritingQuiz({
 
       {/* 틀렸을 때 한 줄 */}
       {phase === "typing" && say && (
-        <p key={shake} className="mt-2 text-sm text-[#ff8a8a]">
+        <p key={shake} className="mt-2 text-sm text-bad">
           {say}
         </p>
       )}
 
       {/* 힌트 */}
       {phase === "typing" && hintLevel > 0 && (
-        <div className="mt-4 w-full border-l-2 border-white/20 pl-3 text-sm text-white/70">
+        <div className="mt-4 w-full border-l-2 border-ink/20 pl-3 text-sm text-ink/70">
           {item.hint && <p>{item.hint}</p>}
           {hintLevel >= 1 && (
-            <p className="mt-1 font-mono text-base tracking-wider text-white">{firstLetterHint(item.answers[0])}</p>
+            <p className="mt-1 font-mono text-base tracking-wider text-ink">{firstLetterHint(item.answers[0])}</p>
           )}
           {hintLevel >= 2 && (
             <div className="mt-2 flex flex-wrap gap-1.5">
               {blocks.map((b, i) => (
-                <span key={i} className="rounded bg-white/10 px-2 py-0.5 font-mono text-white">
+                <span key={i} className="rounded bg-ink/10 px-2 py-0.5 font-mono text-ink">
                   {b}
                 </span>
               ))}
@@ -255,13 +255,13 @@ export default function WritingQuiz({
       <div className="mt-8 flex w-full flex-wrap items-center gap-2 text-sm">
         {phase === "typing" ? (
           <>
-            <button onClick={check} className="rounded-lg bg-white px-5 py-2 font-bold text-black hover:bg-white/90">
+            <button onClick={check} className="rounded-lg bg-ink px-5 py-2 font-bold text-ink-inverse hover:bg-ink/90">
               확인 ⏎
             </button>
             {canSpeak() && (
               <button
                 onClick={listen}
-                className="rounded-lg border border-white/20 px-3 py-2 text-white/80 hover:bg-white/10"
+                className="rounded-lg border border-ink/20 px-3 py-2 text-ink/80 hover:bg-ink/10"
                 title="듣기 (쓰면 반쪽 별)"
               >
                 🔊 듣기
@@ -273,26 +273,26 @@ export default function WritingQuiz({
                 inputRef.current?.focus();
               }}
               disabled={hintLevel >= 2}
-              className="rounded-lg border border-white/20 px-3 py-2 text-white/80 hover:bg-white/10 disabled:opacity-40"
+              className="rounded-lg border border-ink/20 px-3 py-2 text-ink/80 hover:bg-ink/10 disabled:opacity-40"
             >
               힌트 {hintLevel > 0 && `(${hintLevel}/2)`}
             </button>
-            <button onClick={reveal} className="rounded-lg border border-white/20 px-3 py-2 text-white/60 hover:bg-white/10">
+            <button onClick={reveal} className="rounded-lg border border-ink/20 px-3 py-2 text-ink/60 hover:bg-ink/10">
               정답 보기
             </button>
             {canSpeak() && (
-              <button onClick={() => setSlow((x) => !x)} className={`ml-auto text-xs ${slow ? "text-white" : "text-white/40"}`}>
+              <button onClick={() => setSlow((x) => !x)} className={`ml-auto text-xs ${slow ? "text-ink" : "text-ink/40"}`}>
                 🐢 천천히 {slow ? "ON" : "OFF"}
               </button>
             )}
           </>
         ) : (
-          <button onClick={next} className="rounded-lg bg-white px-6 py-2 font-bold text-black hover:bg-white/90">
+          <button onClick={next} className="rounded-lg bg-ink px-6 py-2 font-bold text-ink-inverse hover:bg-ink/90">
             {idx + 1 >= items.length ? "결과 보기" : "다음 ⏎"}
           </button>
         )}
       </div>
-      <p className="mt-3 text-xs text-white/35">힌트나 듣기를 쓰고 맞히면 반쪽 별 · 정답 보기는 블랙홀(오답노트)로</p>
+      <p className="mt-3 text-xs text-ink/35">힌트나 듣기를 쓰고 맞히면 반쪽 별 · 정답 보기는 블랙홀(오답노트)로</p>
     </div>
   );
 }
@@ -317,11 +317,11 @@ function AnswerPanel({
   return (
     <details open className="group mt-6 w-full">
       <summary className="flex cursor-pointer list-none items-center gap-2">
-        <span className="text-xs text-white/60 transition-transform group-open:rotate-90">▶</span>
-        <span className="rounded bg-[#5b3fa0] px-2 py-0.5 text-sm font-bold text-white">네이티브 영어</span>
+        <span className="text-xs text-ink/60 transition-transform group-open:rotate-90">▶</span>
+        <span className="rounded bg-[#5b3fa0] px-2 py-0.5 text-sm font-bold text-ink">네이티브 영어</span>
       </summary>
 
-      <p className="mt-3 text-sm text-[#ffb4a8]">
+      <p className="mt-3 text-sm text-note">
         {correct
           ? "잘했어요! 정답 문장을 확인해 보세요. 👇"
           : input.trim()
@@ -332,14 +332,14 @@ function AnswerPanel({
       <div className="mt-3 flex items-start gap-3">
         <button
           onClick={() => speak(shown, rate)}
-          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-sm hover:bg-white/20"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-ink/10 text-sm hover:bg-ink/20"
           aria-label="듣기"
         >
           🔊
         </button>
         <p className="pt-0.5 text-lg font-bold leading-relaxed">
           {words.map((w, i) => (
-            <span key={i} className={w.ok ? "text-[#5ee89a]" : "text-[#ff6b6b]"}>
+            <span key={i} className={w.ok ? "text-ok" : "text-bad"}>
               {w.text}{" "}
             </span>
           ))}
@@ -348,7 +348,7 @@ function AnswerPanel({
 
       {/* 표현 정리 (있는 경우만) */}
       {exprs.length > 0 && (
-        <ul className="mt-2 space-y-0.5 text-[15px] text-white/85">
+        <ul className="mt-2 space-y-0.5 text-[15px] text-ink/85">
           {exprs.map((e, i) => (
             <li key={i}>
               {e.en}: {e.ko}
@@ -358,19 +358,19 @@ function AnswerPanel({
       )}
 
       {/* 선생님 코멘트 (있는 경우만) */}
-      {item.note && <p className="mt-3 text-[15px] text-white/85">💬 {item.note}</p>}
+      {item.note && <p className="mt-3 text-[15px] text-ink/85">💬 {item.note}</p>}
 
       {/* 다른 표현은 접어두기 */}
       {others.length > 0 && (
         <details className="group/o mt-4">
-          <summary className="flex cursor-pointer list-none items-center gap-2 text-sm text-white/60 hover:text-white">
+          <summary className="flex cursor-pointer list-none items-center gap-2 text-sm text-ink/60 hover:text-ink">
             <span className="text-xs transition-transform group-open/o:rotate-90">▶</span>
             이렇게도 말해요 ({others.length})
           </summary>
           <ul className="mt-2 space-y-1 pl-5">
             {others.map((a, i) => (
               <li key={i}>
-                <button onClick={() => speak(a, rate)} className="text-left text-[15px] text-white/85 hover:text-white">
+                <button onClick={() => speak(a, rate)} className="text-left text-[15px] text-ink/85 hover:text-ink">
                   {a}
                 </button>
               </li>

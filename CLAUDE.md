@@ -24,7 +24,10 @@
 - 용어: 정답=별 켜짐 ⭐, 힌트 쓰고 정답=반쪽 별 🌗, 오답/정답보기=블랙홀 🕳️, 연속 학습일=관측일 🔭
 
 ## 디자인
-- 테마: 은하수 / 별자리 / 갤럭시. 색상은 `src/app/globals.css` 의 CSS 변수만 사용 (`--star`, `--ok`, `--bad`, `--dim` 등 → Tailwind `text-star` 등).
+- 테마: 은하수 / 별자리 / 갤럭시. 색상은 `src/app/globals.css` 의 CSS 변수만 사용 (`--star`, `--ok`, `--bad`, `--dim` 등 → Tailwind `text-star` 등). **색을 하드코딩하지 않는다** (라이트 모드가 깨짐).
+- **다크(기본) / 라이트 모드**: 상단 닉네임 옆 🌙/☀️ 버튼 (`src/components/ThemeToggle.tsx`). 라이트 값은 `:root[data-theme="light"]` 에 정의. 저장은 localStorage `eung:theme`, `<head>` 스크립트로 깜빡임 없이 적용.
+  - 주요 토큰: `surface`/`surface-deep`(모달·입력칸 바탕), `on-star`(노란 버튼 글자), `quiz`/`ink`/`ink-inverse`(문제 화면), `--unlit`/`--line-off`/`--miss`(별자리), `--sky`/`--pink`(메뉴 제목).
+- 문제 푸는 화면(`WritingQuiz`)은 단색 배경 + 텍스트 중심 (`font-plain` = Noto Sans KR).
 - 폰트: 제목 `font-display`(Jua), 본문 Gowun Dodum, 영어 입력/정답 `font-mono`.
 - 모바일에서도 잘 보여야 한다 (스터디 친구들이 폰으로 씀).
 - 이스터에그 환영: 메인의 숨은 응아자리(오각별 순서 클릭), `eungeung` 입력 시 별똥별, 밤 11시 이후 한마디.

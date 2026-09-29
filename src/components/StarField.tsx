@@ -27,14 +27,14 @@ export default function StarField({ count = 120 }: { count?: number }) {
       {dots.map((d, i) => (
         <span
           key={i}
-          className="twinkle absolute rounded-full bg-white"
+          className="twinkle absolute rounded-full bg-dot"
           style={
             {
               left: `${d.x}%`,
               top: `${d.y}%`,
               width: d.r * 2,
               height: d.r * 2,
-              boxShadow: d.r > 1.2 ? "0 0 6px rgba(255,255,255,0.8)" : undefined,
+              boxShadow: d.r > 1.2 ? "0 0 6px var(--dot)" : undefined,
               "--tw-dur": `${d.dur}s`,
               "--tw-delay": `${d.delay}s`,
             } as React.CSSProperties

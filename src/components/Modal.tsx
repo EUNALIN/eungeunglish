@@ -29,7 +29,7 @@ export default function Modal({
       aria-modal="true"
     >
       <div
-        className="pop-in relative w-full max-w-sm rounded-3xl border border-card-border bg-space p-6 text-center shadow-2xl"
+        className="pop-in relative w-full max-w-sm rounded-3xl border border-card-border bg-surface p-6 text-center shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <button

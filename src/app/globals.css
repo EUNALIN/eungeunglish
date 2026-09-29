@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
-/* 🌌 응응글리쉬 은하수 팔레트 */
+/* 🌙 다크 (기본): 은하수 팔레트 */
 :root {
+  color-scheme: dark;
   --space-deep: #070818;
   --space: #0d1030;
   --nebula: #2a1f5c;
@@ -15,6 +16,59 @@
   --line: rgba(255, 244, 190, 0.75);
   --card: rgba(255, 255, 255, 0.06);
   --card-border: rgba(255, 255, 255, 0.12);
+  /* 모달·헤더·입력칸 바탕 */
+  --surface: #0d1030;
+  --surface-deep: #070818;
+  /* 노란 버튼 위 글자 */
+  --on-star: #0d1030;
+  /* 문제 화면 (단색) */
+  --quiz-bg: #151515;
+  --ink: #ffffff;
+  --ink-inverse: #000000;
+  --note: #ffb4a8;
+  /* 별자리·배경 별 */
+  --dot: #ffffff;
+  --unlit: rgba(255, 255, 255, 0.55);
+  --line-off: rgba(255, 255, 255, 0.18);
+  --menu-line: rgba(255, 244, 190, 0.25);
+  --miss: #4a4470;
+  --sky: #9fd8ff;
+  --pink: #ffb3d9;
+  --bg-glow-a: rgba(91, 42, 110, 0.35);
+  --bg-glow-b: rgba(42, 31, 92, 0.55);
+}
+
+/* ☀️ 라이트 */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --space-deep: #ffffff;
+  --space: #ffffff;
+  --nebula: #5b3fa0;
+  --milk: #1e1b3a;
+  --dim: #66637f;
+  --star: #d49a00;
+  --star-glow: #f2b705;
+  --ok: #15a34a;
+  --bad: #e11d48;
+  --line: rgba(190, 135, 0, 0.8);
+  --card: rgba(20, 20, 60, 0.03);
+  --card-border: rgba(20, 20, 60, 0.12);
+  --surface: #ffffff;
+  --surface-deep: #f1f0f8;
+  --on-star: #1e1b3a;
+  --quiz-bg: #ffffff;
+  --ink: #111111;
+  --ink-inverse: #ffffff;
+  --note: #c2410c;
+  --dot: rgba(110, 110, 150, 0.35);
+  --unlit: rgba(60, 50, 120, 0.35);
+  --line-off: rgba(60, 50, 120, 0.22);
+  --menu-line: rgba(150, 110, 0, 0.4);
+  --miss: #cbc8de;
+  --sky: #2b8fd6;
+  --pink: #d94f95;
+  --bg-glow-a: transparent;
+  --bg-glow-b: transparent;
 }
 
 @theme inline {
@@ -28,17 +82,30 @@
   --color-bad: var(--bad);
   --color-card: var(--card);
   --color-card-border: var(--card-border);
+  --color-surface: var(--surface);
+  --color-surface-deep: var(--surface-deep);
+  --color-on-star: var(--on-star);
+  --color-quiz: var(--quiz-bg);
+  --color-ink: var(--ink);
+  --color-ink-inverse: var(--ink-inverse);
+  --color-note: var(--note);
+  --color-dot: var(--dot);
   --font-sans: var(--font-gowun);
   --font-display: var(--font-jua);
   --font-mono: var(--font-geist-mono);
+}
+
+/* 라이트 모드: 하얀 배경에 별은 살짝만 (3개 중 1개만 보이게) */
+:root[data-theme="light"] .twinkle.bg-dot:not(:nth-child(3n)) {
+  display: none;
 }
 
 /* 배경은 html 에 둬야 body 뒤(-z-10)의 StarField 가 가려지지 않는다 */
 html {
   background-color: var(--space-deep);
   background:
-    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(91, 42, 110, 0.35), transparent 60%),
-    radial-gradient(ellipse 70% 60% at 85% 80%, rgba(42, 31, 92, 0.55), transparent 60%),
+    radial-gradient(ellipse 80% 50% at 20% 10%, var(--bg-glow-a), transparent 60%),
+    radial-gradient(ellipse 70% 60% at 85% 80%, var(--bg-glow-b), transparent 60%),
     linear-gradient(180deg, var(--space-deep), var(--space) 60%, var(--space-deep));
   background-attachment: fixed;
 }

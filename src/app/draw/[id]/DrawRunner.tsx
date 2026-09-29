@@ -107,7 +107,7 @@ export default function DrawRunner({ constellation }: { constellation: Constella
               )}
               <div className="mt-8 flex flex-wrap justify-center gap-2">
                 {passed && nextC && (
-                  <Link href={`/draw/${nextC.id}`} className="rounded-xl bg-star px-5 py-2 font-bold text-space">
+                  <Link href={`/draw/${nextC.id}`} className="rounded-xl bg-star px-5 py-2 font-bold text-on-star">
                     다음 별자리: {nextC.name} →
                   </Link>
                 )}
@@ -116,7 +116,7 @@ export default function DrawRunner({ constellation }: { constellation: Constella
                   className={
                     passed
                       ? "rounded-xl border border-card-border px-5 py-2"
-                      : "rounded-xl bg-star px-5 py-2 font-bold text-space"
+                      : "rounded-xl bg-star px-5 py-2 font-bold text-on-star"
                   }
                 >
                   새 문장으로 다시 그리기

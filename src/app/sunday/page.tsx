@@ -74,7 +74,7 @@ export default function SundayPage() {
       {view.kind === "menu" && (
         <>
           <div className="mt-4 text-center">
-            <h1 className="font-display text-4xl" style={{ color: "#ffb3d9" }}>
+            <h1 className="font-display text-4xl" style={{ color: "var(--pink)" }}>
               Sunday Review
             </h1>
             <p className="mt-2 text-dim">일요 스터디에서 배운 패턴과 피드백, 전부 다시 꺼내 쓰기 ✨</p>
@@ -190,7 +190,7 @@ function PatternCards({ onPractice }: { onPractice: (p: SundayPattern) => void }
             <li key={k}>
               <button
                 onClick={() => speak(ex.en)}
-                className="flex w-full items-baseline gap-3 rounded-xl bg-space-deep/60 px-4 py-2.5 text-left hover:bg-space-deep"
+                className="flex w-full items-baseline gap-3 rounded-xl bg-surface-deep/60 px-4 py-2.5 text-left hover:bg-surface-deep"
               >
                 <span className="text-sm">🔊</span>
                 <span className="flex-1">
@@ -207,7 +207,7 @@ function PatternCards({ onPractice }: { onPractice: (p: SundayPattern) => void }
         <button onClick={() => setI((x) => x + 1)} className="rounded-xl border border-card-border px-5 py-2">
           다음 카드 🔀
         </button>
-        <button onClick={() => onPractice(p)} className="rounded-xl bg-star px-5 py-2 font-bold text-space">
+        <button onClick={() => onPractice(p)} className="rounded-xl bg-star px-5 py-2 font-bold text-on-star">
           이 패턴으로 영작 ✍️
         </button>
       </div>
@@ -235,7 +235,7 @@ function Done({ results, onAgain, onMenu }: { results: Result[]; onAgain: () => 
         <span>🕳️ 블랙홀 {miss}</span>
       </div>
       <div className="mt-8 flex flex-wrap justify-center gap-2">
-        <button onClick={onAgain} className="rounded-xl bg-star px-5 py-2 font-bold text-space">
+        <button onClick={onAgain} className="rounded-xl bg-star px-5 py-2 font-bold text-on-star">
           한 판 더 (새 문제)
         </button>
         <button onClick={onMenu} className="rounded-xl border border-card-border px-5 py-2">

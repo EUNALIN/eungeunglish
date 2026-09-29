@@ -65,7 +65,7 @@ export default function TopicRunner({ topic }: { topic: GrammarTopic }) {
               <button
                 key={i}
                 onClick={() => setCard(i)}
-                className={`h-2 rounded-full transition-all ${i === card ? "w-6 bg-star" : "w-2 bg-white/20"}`}
+                className={`h-2 rounded-full transition-all ${i === card ? "w-6 bg-star" : "w-2 bg-ink/20"}`}
                 aria-label={`${i + 1}번 카드`}
               />
             ))}
@@ -85,7 +85,7 @@ export default function TopicRunner({ topic }: { topic: GrammarTopic }) {
                   <li key={i}>
                     <button
                       onClick={() => speak(ex.en)}
-                      className="flex w-full items-baseline gap-3 rounded-xl bg-space-deep/60 px-4 py-2.5 text-left hover:bg-space-deep"
+                      className="flex w-full items-baseline gap-3 rounded-xl bg-surface-deep/60 px-4 py-2.5 text-left hover:bg-surface-deep"
                     >
                       <span className="text-sm">🔊</span>
                       <span className="flex-1">
@@ -111,11 +111,11 @@ export default function TopicRunner({ topic }: { topic: GrammarTopic }) {
               ← 이전
             </button>
             {lastCard ? (
-              <button onClick={() => setStep("quiz")} className="rounded-xl bg-star px-6 py-2 font-bold text-space">
+              <button onClick={() => setStep("quiz")} className="rounded-xl bg-star px-6 py-2 font-bold text-on-star">
                 영작하러 가기 ✍️
               </button>
             ) : (
-              <button onClick={() => setCard((i) => i + 1)} className="rounded-xl bg-star px-6 py-2 font-bold text-space">
+              <button onClick={() => setCard((i) => i + 1)} className="rounded-xl bg-star px-6 py-2 font-bold text-on-star">
                 다음 →
               </button>
             )}
@@ -167,7 +167,7 @@ function Done({ results, onRetry, onConcept }: { results: Result[]; onRetry: () 
         <span>🕳️ 블랙홀 {miss}</span>
       </div>
       <div className="mt-8 flex flex-wrap justify-center gap-2">
-        <button onClick={onRetry} className="rounded-xl bg-star px-5 py-2 font-bold text-space">
+        <button onClick={onRetry} className="rounded-xl bg-star px-5 py-2 font-bold text-on-star">
           다시 도전
         </button>
         <button onClick={onConcept} className="rounded-xl border border-card-border px-5 py-2">
