@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+/* 🌌 응응글리쉬 은하수 팔레트 */
+:root {
+  --space-deep: #070818;
+  --space: #0d1030;
+  --nebula: #2a1f5c;
+  --nebula-pink: #5b2a6e;
+  --milk: #eef0ff;
+  --dim: #9aa0c8;
+  --star: #ffd966;
+  --star-glow: #fff3b0;
+  --ok: #5ee89a;
+  --bad: #ff7a8a;
+  --line: rgba(255, 244, 190, 0.75);
+  --card: rgba(255, 255, 255, 0.06);
+  --card-border: rgba(255, 255, 255, 0.12);
+}
+
+@theme inline {
+  --color-space-deep: var(--space-deep);
+  --color-space: var(--space);
+  --color-nebula: var(--nebula);
+  --color-milk: var(--milk);
+  --color-dim: var(--dim);
+  --color-star: var(--star);
+  --color-ok: var(--ok);
+  --color-bad: var(--bad);
+  --color-card: var(--card);
+  --color-card-border: var(--card-border);
+  --font-sans: var(--font-gowun);
+  --font-display: var(--font-jua);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* 배경은 html 에 둬야 body 뒤(-z-10)의 StarField 가 가려지지 않는다 */
+html {
+  background-color: var(--space-deep);
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(91, 42, 110, 0.35), transparent 60%),
+    radial-gradient(ellipse 70% 60% at 85% 80%, rgba(42, 31, 92, 0.55), transparent 60%),
+    linear-gradient(180deg, var(--space-deep), var(--space) 60%, var(--space-deep));
+  background-attachment: fixed;
+}
+
+body {
+  color: var(--milk);
+  font-family: var(--font-gowun), system-ui, sans-serif;
+  min-height: 100dvh;
+}
+
+.font-display {
+  font-family: var(--font-jua), var(--font-gowun), sans-serif;
+}
+
+/* 문제 푸는 화면: 텍스트에만 집중 */
+.font-plain {
+  font-family: var(--font-noto), system-ui, sans-serif;
+}
+
+.glass {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(6px);
+}
+
+/* ✨ 반짝이 */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 1; }
+}
+.twinkle { animation: twinkle var(--tw-dur, 3s) ease-in-out infinite; animation-delay: var(--tw-delay, 0s); }
+
+/* 🌠 별똥별 */
+@keyframes shoot {
+  0% { transform: translate(0, 0) rotate(-35deg); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translate(-70vw, 45vh) rotate(-35deg); opacity: 0; }
+}
+.shooting-star {
+  position: fixed;
+  width: 140px;
+  height: 2px;
+  background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0));
+  border-radius: 999px;
+  filter: drop-shadow(0 0 6px #fff);
+  animation: shoot 1.4s ease-out forwards;
+  pointer-events: none;
+  z-index: 60;
+}
+
+/* 밑줄 위 커서 */
+@keyframes caret {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.caret { animation: caret 1s step-end infinite; }
+
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.spin-slow { animation: spin-slow 3s linear infinite; }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+.shake { animation: shake 0.35s ease-in-out; }
+
+@keyframes pop-in {
+  0% { transform: scale(0.6); opacity: 0; }
+  70% { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); }
+}
+.pop-in { animation: pop-in 0.35s ease-out; }
+
+@keyframes draw-line {
+  from { stroke-dashoffset: var(--len, 200); }
+  to { stroke-dashoffset: 0; }
+}
+.draw-line {
+  stroke-dasharray: var(--len, 200);
+  animation: draw-line 0.8s ease-out forwards;
+}
+
+@keyframes star-light {
+  0% { transform: scale(0.2); opacity: 0; }
+  60% { transform: scale(1.6); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.star-light { animation: star-light 0.6s ease-out; transform-box: fill-box; transform-origin: center; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}
