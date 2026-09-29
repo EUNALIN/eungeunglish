@@ -79,7 +79,7 @@ export default function TopBar() {
           <input
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
-            placeholder="은하수"
+            placeholder="ex) 은하수"
             maxLength={12}
             className="rounded-xl border border-card-border bg-surface-deep px-3 py-2 outline-none focus:border-star"
           />
@@ -87,9 +87,9 @@ export default function TopBar() {
           <input
             value={code}
             onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 4))}
-            placeholder="2261"
+            placeholder="ex) 0000"
             inputMode="numeric"
-            className="rounded-xl border border-card-border bg-surface-deep px-3 py-2 font-mono tracking-[0.4em] outline-none focus:border-star"
+            className="rounded-xl border border-card-border bg-surface-deep px-3 py-2 font-mono tracking-[0.4em] outline-none placeholder:font-sans placeholder:tracking-normal focus:border-star"
           />
           {error && <p className="text-sm text-bad">{error}</p>}
           <button className="mt-2 rounded-xl bg-star py-2 font-bold text-on-star hover:brightness-110">응! 출발</button>
